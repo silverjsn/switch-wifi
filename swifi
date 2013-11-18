@@ -1,7 +1,4 @@
 #!/bin/bash
-# swifi script to connect to wireless network
-# version 2
-# written by Jason
 
 WPA=`which wpa_supplicant`
 DHCP=`which dhclient`
