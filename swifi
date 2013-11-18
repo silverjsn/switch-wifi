@@ -1,0 +1,32 @@
+#!/bin/bash
+# swifi script to connect to wireless network
+# version 2
+# written by Jason
+
+WPA=`which wpa_supplicant`
+DHCP=`which dhclient`
+IFCONF=`which ifconfig`
+GREP=`which grep`
+CUT=`which cut`
+AWK=`which awk`
+CAT=`which cat`
+
+WPAPID=`$CAT /var/run/wpa_supp.pid`
+DHCPID=`$CAT /var/run/dhclient.pid`
+IFIP=`$IFCONF | $GREP 'inet addr:' | $GREP -v '127.0.0.1' | $CUT -d: -f2 | $AWK '{print $1}'`
+
+if [ "$(id -u)" == 0 ]
+then
+  if [[ -z $IFIP ] || [ $2 == 'reset' ]]
+  then
+    echo 'No IP Address detected. Reset interface wlan0.'
+    "$IFCONF wlan0 down && $IFCONF wlan0 up"
+  else
+	echo "IP Address detected: $IFIP"
+	echo 'Done'
+  fi
+fi
+
+function reset {
+	
+}
